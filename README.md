@@ -8,7 +8,8 @@
 
 ## Title
 Assignement 4 of Intelligent Robotics Course 
-Reference: https://sigarra.up.pt/feup/en/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=542590)
+
+Reference: https://sigarra.up.pt/feup/en/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=540794
 
 ## Purpose
 The purpose of this project is to try to make a robot know where he is based on
