@@ -7,7 +7,8 @@
 - **Hugo Hovhannessian** up202402934
 
 ## Title
-Assignement 4 of Robotic Intelligent
+Assignement 4 of Intelligent Robotics Course 
+Reference: (Feup Faculty of Engineering of the University of Porto)(https://sigarra.up.pt/feup/en/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=542590)
 
 ## Purpose
 The purpose of this project is to try to make a robot know where he is based on
