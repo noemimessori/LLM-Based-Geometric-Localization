@@ -1,0 +1,47 @@
+- groundtruth pose: x=-3.00, y=0.00, theta=0.0
+- Visible beacons:
+  Beacon 2: d=5.83m, θ=59.0°
+  Beacon 3: d=3.58m, θ=98.6°
+  Beacon 4: d=2.00m, θ=-180.0°
+  Beacon 5: d=3.58m, θ=-98.6°
+  Beacon 6: d=5.83m, θ=-59.0°
+
+- groundtruth pose: x=-3.40, y=-0.00, theta=90.0
+- Visible beacons:
+  Beacon 2: d=6.05m, θ=-34.2°
+  Beacon 3: d=3.54m, θ=2.2°
+  Beacon 4: d=1.60m, θ=90.0°
+  Beacon 5: d=3.54m, θ=177.8°
+  Beacon 6: d=6.05m, θ=-145.8°
+
+- groundtruth pose: x=-0.05, y=-3.75, theta=90.0
+- Visible beacons:
+  Beacon 0: d=6.29m, θ=-53.5°
+  Beacon 4: d=6.20m, θ=52.9°
+  Beacon 5: d=3.49m, θ=86.5°
+  Beacon 6: d=1.26m, θ=-177.5°
+  Beacon 7: d=3.60m, θ=-86.7°
+
+- groundtruth pose: x=2.96, y=-2.33, theta=135.0
+- Visible beacons:
+  Beacon 0: d=3.10m, θ=-86.2°
+  Beacon 1: d=5.90m, θ=-50.6°
+  Beacon 5: d=6.61m, θ=55.5°
+  Beacon 6: d=3.99m, θ=87.0°
+  Beacon 7: d=1.33m, θ=160.6°
+
+- groundtruth pose: x=2.04, y=1.88, theta=90.0
+- Visible beacons:
+  Beacon 0: d=3.51m, θ=-122.5°
+  Beacon 1: d=2.23m, θ=-42.1°
+  Beacon 2: d=3.73m, θ=33.2°
+
+- groundtruth pose: x=-4.39, y=-1.89, theta=175.9
+- Visible beacons:
+  Beacon 2: d=8.17m, θ=-118.4°
+  Beacon 3: d=5.50m, θ=-94.8°
+  Beacon 4: d=1.99m, θ=-68.1°
+  Beacon 5: d=1.85m, θ=121.7°
+  Beacon 6: d=5.38m, θ=148.9°
+  Beacon 7: d=8.10m, θ=172.4°
+

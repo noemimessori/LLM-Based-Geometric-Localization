@@ -1,0 +1,183 @@
+Robot Localization Optimization Problem
+
+OBJECTIVE:
+Determine the exact position and orientation of a mobile robot in a 2D environment by minimizing measurement errors while satisfying all constraints.
+
+CONFIGURATION SPACE:
+- State vector q = (x, y, theta)
+  * x, y: position coordinates [meters]
+  * theta: orientation [degrees]
+
+ENVIRONMENT:
+1. Central circular wall:
+   - Center: (0, 0)
+   - Radius (r_w): 2.5m
+
+2. Fixed beacons (B_i, i=0..7):
+   - Positioned on circle with radius (r_b): 5.0m
+   - Angular positions: φ_i = i*45°
+   - Coordinates: (r_b*cos(φ_i), r_b*sin(φ_i))
+   - B_0(5.0, 0.0)       B_4(-5.0, 0.0)
+   - B_1(3.54, 3.54)    B_5(-3.54, -3.54)
+   - B_2(0.0, 5.0)      B_6(0.0, -5.0)
+   - B_3(-3.54, 3.54)   B_7(3.54, -3.54)
+
+CONSTRAINTS:
+1. Position bounds:
+   - r_w < sqrt(x² + y²) < r_b
+   - Numerical: 2.5m < sqrt(x² + y²) < 5.0m
+
+2. Angle normalization:
+   - -180° ≤ theta ≤ 180°
+   - Apply normalization: theta = theta - 360°*round(theta/360°)
+
+3. Line-of-sight:
+   - A beacon is visible if and only if the line segment from (x,y) to beacon does not intersect the central wall
+   - Test intersection using parametric line equation and circle intersection:
+     * Line: p(t) = (1-t)(x,y) + t(x_beacon,y_beacon), t∈[0,1]
+     * Check if min distance to origin > r_w for all t∈[0,1]
+
+MEASUREMENT MODEL:
+For each visible beacon i:
+1. Distance (d_i):
+   - d_i = sqrt((x - x_i)² + (y - y_i)²)
+   - Units: meters
+
+2. Bearing (α_i):
+   - α_i = atan2(y_i - y, x_i - x) - theta
+   - Units: degrees
+   - Normalize to [-180°, 180°]
+
+OPTIMIZATION PROBLEM:
+minimize E = Σ_i [ w_d*(d_i - d_measured_i)² + w_α*(α_i - α_measured_i)² ]
+where:
+- w_d = 1.0 (distance error weight)
+- w_α = 0.5 (bearing error weight)
+subject to all constraints above
+
+SOLUTION METHODOLOGY:
+1. Initial grid search:
+   - Sample x,y: ±4m with 0.2m step
+   - Sample theta: ±180° with 5° step
+   - Filter points violating position constraint
+   - Store points with lowest errors
+
+2. Gradient descent refinement:
+   - Start from best grid points
+   - Use numerical gradients
+   - Small learning rate (~0.0001)
+   - 1000+ iterations
+   - Maintain constraints during optimization
+
+3. Solution validation:
+   - Verify all constraints
+   - Calculate RMS errors for distances and bearings
+   - Verify line-of-sight for all measured beacons
+
+QUALITY METRICS:
+- Target RMS distance error: < 0.01m
+- Target RMS bearing error: < 0.1°
+- All constraints must be satisfied exactly
+
+
+
+EXAMPLE CALCULATION:
+Given measurements:
+- B2: d=5.83m, θ=59.0°
+- B3: d=3.58m, θ=98.6°
+- B4: d=2.00m, θ=-180.0°
+- B5: d=3.58m, θ=-98.6°
+- B6: d=5.83m, θ=-59.0°
+
+Known solution: q = (-3.00, 0.00, 0.0)
+
+Step-by-step verification:
+
+1. Constraint Verification:
+   a) Position constraint:
+      dist_from_origin = sqrt((-3.00)² + 0.00²) = 3.00m
+      Satisfies: 2.5m < 3.00m < 5.0m ✓
+
+   b) Angle constraint:
+      theta = 0.0° is within [-180°, 180°] ✓
+
+2. Distance Calculations:
+   For each beacon (x_i, y_i):
+   d_i = sqrt((x - x_i)² + (y - y_i)²)
+
+   B2(0, 5):
+   d_2 = sqrt((-3.00 - 0)² + (0.00 - 5)²)
+   d_2 = sqrt(9 + 25) = sqrt(34) = 5.83m ✓
+
+   B3(-3.54, 3.54):
+   d_3 = sqrt((-3.00 - (-3.54))² + (0.00 - 3.54)²)
+   d_3 = sqrt(0.54² + 3.54²) = 3.58m ✓
+
+   B4(-5, 0):
+   d_4 = sqrt((-3.00 - (-5))² + (0.00 - 0)²)
+   d_4 = sqrt(2² + 0²) = 2.00m ✓
+
+   B5(-3.54, -3.54):
+   d_5 = sqrt((-3.00 - (-3.54))² + (0.00 - (-3.54))²)
+   d_5 = sqrt(0.54² + 3.54²) = 3.58m ✓
+
+   B6(0, -5):
+   d_6 = sqrt((-3.00 - 0)² + (0.00 - (-5))²)
+   d_6 = sqrt(9 + 25) = sqrt(34) = 5.83m ✓
+
+3. Bearing Calculations:
+   For each beacon:
+   α_i = atan2(y_i - y, x_i - x) - theta
+
+   B2(0, 5):
+   α_2 = atan2(5 - 0, 0 - (-3)) - 0
+   α_2 = atan2(5, 3) = 59.0° ✓
+
+   B3(-3.54, 3.54):
+   α_3 = atan2(3.54 - 0, -3.54 - (-3)) - 0
+   α_3 = atan2(3.54, -0.54) = 98.6° ✓
+
+   B4(-5, 0):
+   α_4 = atan2(0 - 0, -5 - (-3)) - 0
+   α_4 = atan2(0, -2) = 180.0° = -180.0° ✓
+
+   B5(-3.54, -3.54):
+   α_5 = atan2(-3.54 - 0, -3.54 - (-3)) - 0
+   α_5 = atan2(-3.54, -0.54) = -98.6° ✓
+
+   B6(0, -5):
+   α_6 = atan2(-5 - 0, 0 - (-3)) - 0
+   α_6 = atan2(-5, 3) = -59.0° ✓
+
+4. Line-of-sight Verification:
+   For each beacon, check if line intersects wall:
+   p(t) = (1-t)(-3,0) + t(x_beacon,y_beacon), t∈[0,1]
+
+   Minimum distance to origin for each line:
+   B2: |3*5|/sqrt(9+25) = 15/5.83 = 2.57m > 2.5m ✓
+   B3: |3*3.54-3.54*3|/sqrt(0.54²+3.54²) = 2.57m > 2.5m ✓
+   B4: 3.00m > 2.5m ✓
+   B5: Same as B3 by symmetry ✓
+   B6: Same as B2 by symmetry ✓
+
+5. Error Calculation:
+   For each measurement i:
+   E_d = (d_calculated - d_measured)²
+   E_α = (α_calculated - α_measured)²
+   Total E = Σ(E_d + w*E_α)
+
+   All errors = 0 (measurements match calculations exactly)
+
+Therefore, q = (-3.00, 0.00, 0.0) is verified as the exact solution.
+
+Current Exercise:
+Given measurements:
+  Beacon 2: d=8.17m, θ=-118.4°
+  Beacon 3: d=5.50m, θ=-94.8°
+  Beacon 4: d=1.99m, θ=-68.1°
+  Beacon 5: d=1.85m, θ=121.7°
+  Beacon 6: d=5.38m, θ=148.9°
+  Beacon 7: d=8.10m, θ=172.4°
+
+
+Find optimal q = (x, y, theta) using the methodology described above.

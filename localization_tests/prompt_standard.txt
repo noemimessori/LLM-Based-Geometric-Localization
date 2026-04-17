@@ -1,0 +1,46 @@
+Your task is to determine the exact position and orientation of a mobile robot in a 2D environment.
+
+Environment description:
+Robot is has a position(x, y) and rotation (theta), resulting in configuration vector (x, y, theta), which fully describes the robot state.
+The environment consists of a central (x=0, y=0) static circle shaped wall with radius 2.5. It blocks the robots sight towards obstacles, as it is opaque.
+In addition to the wall, there are 8 beacons placed in the environment, for the robot to detect if visible. The 8 static beacons are placed on a circle with radius 5, and therefore have the absolute positions
+
+Beacon 0:(5,0),
+Beacon 1:(3.54,3.54),
+Beacon 2:(0,5),
+Beacon 3:(-3.54,3.54),
+Beacon 4:(-5,0),
+Beacon 5:(-3.54,-3.54),
+Beacon 6:(0,-5),
+Beacon 7:(3.54,-3.54)
+
+It can be assumed that the robot is located between wall radius (2.5m) and beacon radius (5m) at all time.
+The robot sensors are capable of measuring distance d and angle alpha of every visible beacon.
+Angles alpha are measured in degrees [-180; 180] counterclockwise from the robot's forward direction.
+Positive angle measurements correspond to beacons left to the robots forward direction.
+Negative angle measurements correspond to beacons right to the robots forward direction.
+
+The task is to determine the current robot configuration given the sensor readings of all currently visible beacons.
+
+An example is given by
+
+- Visible beacons:
+  Beacon 2: d=5.83m, θ=59.0°
+  Beacon 3: d=3.58m, θ=98.6°
+  Beacon 4: d=2.00m, θ=-180.0°
+  Beacon 5: d=3.58m, θ=-98.6°
+  Beacon 6: d=5.83m, θ=-59.0°
+
+-> robot configuration equals: x=-3.00, y=0.00, theta=0.0
+
+We are now interested in finding the robot configuration for the sensor reading :
+
+- Visible beacons:
+  Beacon 2: d=8.17m, θ=-118.4°
+  Beacon 3: d=5.50m, θ=-94.8°
+  Beacon 4: d=1.99m, θ=-68.1°
+  Beacon 5: d=1.85m, θ=121.7°
+  Beacon 6: d=5.38m, θ=148.9°
+  Beacon 7: d=8.10m, θ=172.4°
+
+-> robot configuration equals?

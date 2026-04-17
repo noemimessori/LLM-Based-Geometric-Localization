@@ -62,3 +62,6 @@ To launch LlamaAPI.py you need to have [Olama](https://ollama.com) installed and
 If your version of Llama is different from ours (Llama 3.2) please modify the line 19 of the python file and you will
 be able to launch it without trouble. 
 
+### Link to github:
+https://github.com/schnedom/RoboticaInteligente_Ass2.git
+

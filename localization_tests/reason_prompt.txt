@@ -1,0 +1,108 @@
+Your task is to determine where a mobile robot is located and which direction it's facing in a circular environment. Think of this as a detective puzzle where you need to use clues from what the robot can see to figure out its exact position.
+Environment Description:
+Imagine a circular arena with a round wall in the center (radius 2.5 meters). Around this central wall, picture 8 distinctive beacons arranged in a perfect circle (radius 5 meters). These beacons are like lighthouses that the robot can see and measure - but only if the central wall doesn't block its view!
+Key Geometric Principles:
+
+Each beacon creates a distance circle around itself where the robot might be
+The cosine law relates distances: d² = r1² + r2² - 2r1r2*cos(θ)
+Similar angles to multiple beacons suggest circular arc positioning
+When two beacons have equal but opposite angles (like +60° and -60°), the robot likely lies on their perpendicular bisector
+The ratio of distances to two beacons helps determine position along an arc
+
+Beacon Positions:
+
+Beacon 0 is directly to the right (at x=5, y=0)
+Beacon 1 is in the upper-right corner (at x=3.54, y=3.54)
+Beacon 2 is directly up (at x=0, y=5)
+Beacon 3 is in the upper-left corner (at x=-3.54, y=3.54)
+Beacon 4 is directly to the left (at x=-5, y=0)
+Beacon 5 is in the lower-left corner (at x=-3.54, y=-3.54)
+Beacon 6 is directly down (at x=0, y=-5)
+Beacon 7 is in the lower-right corner (at x=3.54, y=-3.54)
+
+The robot provides two measurements for each beacon it can see:
+
+Distance: How far away the beacon is (in meters)
+Angle: Where it sees the beacon relative to its facing direction:
+
+0° means directly ahead
+Positive angles (up to +180°) indicate beacons to the left
+Negative angles (down to -180°) indicate beacons to the right
+±180° means directly behind
+
+Systematic Analysis Steps:
+
+Orientation Clues
+Look for beacons with extreme angles (near ±180°) - these are behind the robot
+Find pairs of beacons with complementary angles (they sum to 0°)
+Note which beacons are closest to 0° (these are ahead of the robot)
+
+Position Constraints
+Map out the "visibility zone" based on which beacons are visible/blocked
+Use shortest distance measurements to establish minimum radius from center
+Find intersections of distance circles from multiple beacons
+
+Symmetry Patterns
+Identify beacon pairs with similar distances
+Look for matching positive/negative angles
+Check for regular spacing between consecutive angles
+
+Cross-Validation
+Verify all measurements are consistent with proposed position
+Confirm blocked beacons would indeed be hidden by the wall
+Check if distances and angles match expected geometry
+
+Common Configuration Patterns:
+"Edge Case": Robot near outer edge, seeing widely spaced angles
+"Wall Hugger": Robot near center, seeing tightly grouped beacons
+"Between Beacons": Robot sees equal angles to adjacent beacons
+"Radial Alignment": Robot directly in line with a beacon
+"Symmetric View": Robot sees mirror-image patterns of angles
+
+Solution Verification:
+All visible beacons must have clear line-of-sight
+Blocked beacons must lie behind the central wall
+Adjacent visible beacons shouldn't have angle gaps > 120°
+Distance measurements must be between 2.5m and 7.5m
+Angle sequences should follow consistent clockwise/counterclockwise progression
+
+Example Case:
+The robot reports seeing:
+
+Beacon 2 at 5.83m, 59.0° (ahead-left)
+Beacon 3 at 3.58m, 98.6° (far left)
+Beacon 4 at 2.00m, 180.0° (directly behind)
+Beacon 5 at 3.58m, -98.6° (far right)
+Beacon 6 at 5.83m, -59.0° (ahead-right)
+
+Reasoning through this:
+
+Orientation Analysis:
+
+Beacon 4 at 180° means the robot is facing directly away from it
+Beacons 2&6 and 3&5 form symmetrical pairs with equal distances
+The angle pattern suggests perfect alignment with Beacon 4
+
+
+Position Determination:
+
+Very short distance (2m) to Beacon 4 indicates proximity
+Symmetrical angles (±59.0° and ±98.6°) suggest robot is on Beacon 4's line
+Equal distances to paired beacons confirm direct alignment
+
+
+Cross-Validation:
+All visible beacons are in expected 180° forward arc
+Distances and angles show perfect symmetry around Beacon 4 axis
+Missing beacons (0,1,7) would be blocked by central wall
+
+
+
+Solution: The robot is at position x=-3.00, y=0.00, facing straight ahead (theta=0.0)
+Now, use similar systematic reasoning to solve this case:
+
+  Beacon 0: d=3.51m, θ=-122.5°
+  Beacon 1: d=2.23m, θ=-42.1°
+  Beacon 2: d=3.73m, θ=33.2°
+
+Apply the analysis steps, look for patterns, and verify your solution matches all measurements!
